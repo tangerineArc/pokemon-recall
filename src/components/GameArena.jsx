@@ -6,13 +6,29 @@ import { useEffect, useState } from "react";
 import Tilt from "react-parallax-tilt";
 
 import getSpritesData from "../utils/fetch-data.js";
+import randomShuffler from "../utils/shuffle-array.js";
 
 export default function GameArena() {
   const [sprites, setSprites] = useState([]);
 
+  function handleSelection(target) {
+    if (target.isSelected) {
+      console.log("out!");
+      return;
+    }
+
+    setSprites((prevSprites) => {
+      const newSprites = structuredClone(prevSprites).map((sprite) => {
+        if (sprite.id === target.id) sprite.isSelected = true;
+        return sprite;
+      });
+      return randomShuffler(newSprites);
+    });
+  }
+
   useEffect(() => {
     getSpritesData().then((data) => {
-      setSprites(data);
+      setSprites(randomShuffler(data));
     });
   }, []);
 
@@ -43,7 +59,12 @@ export default function GameArena() {
               glareBorderRadius="5px"
               scale={1.05}
             >
-              <div tabIndex={0}>
+              <div
+                tabIndex={0}
+                onClick={() => {
+                  handleSelection(sprite);
+                }}
+              >
                 <div
                   style={{
                     backgroundImage: `url(${sprite.image})`,
