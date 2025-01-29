@@ -6,7 +6,7 @@ export default function GameOverModal({
   score,
   playAgainEventHandler,
   quitEventHandler,
-  message
+  message,
 }) {
   return (
     <div id="game-over-modal">

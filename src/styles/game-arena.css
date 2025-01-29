@@ -23,7 +23,7 @@
     font-size: 3rem;
     font-family: "Honk", serif;
     text-align: center;
-    
+
     animation: load 0.5s infinite alternate;
   }
 }
