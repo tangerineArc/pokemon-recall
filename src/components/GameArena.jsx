@@ -18,14 +18,18 @@ export default function GameArena({ playEventHandler, cardsCount }) {
   const [overMessage, setOverMessage] = useState("");
 
   useEffect(() => {
+    let ignore = false;
     if (!isGameOver) {
       getSpritesData(cardsCount).then((data) => {
-        setSprites(randomShuffler(data));
+        if (!ignore) {
+          setSprites(randomShuffler(data));
+        }
       });
     }
 
     return () => {
       setSprites([]);
+      ignore = true;
     };
   }, [isGameOver, cardsCount]);
 
