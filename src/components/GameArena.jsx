@@ -3,6 +3,7 @@ import "../styles/game-arena.css";
 import { useEffect, useState } from "react";
 
 import getSpritesData from "../utils/fetch-data.js";
+import isStorageAvailable from "../utils/storage.js";
 import randomShuffler from "../utils/shuffle-array.js";
 
 import GameHeader from "./GameHeader.jsx";
@@ -13,14 +14,31 @@ import TilesContainer from "./TilesContainer.jsx";
 
 export default function GameArena({ playEventHandler, cardsCount }) {
   const [sprites, setSprites] = useState([]);
+
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(
+    isStorageAvailable() && localStorage.getItem(`${cardsCount}-level`) !== null
+      ? localStorage.getItem(`${cardsCount}-level`)
+      : 0
+  );
+
   const [isGameOver, setIsGameOver] = useState(false);
   const [overMessage, setOverMessage] = useState("");
 
   const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const key = `${cardsCount}-level`;
+    if (isStorageAvailable()) {
+      if (localStorage.getItem(key) === null) {
+        localStorage.setItem(key, 0);
+      } else {
+        localStorage.setItem(key, highScore);
+      }
+    }
+  }, [highScore, cardsCount]);
 
   useEffect(() => {
     let ignore = false;
@@ -50,9 +68,17 @@ export default function GameArena({ playEventHandler, cardsCount }) {
 
   const handleSelection = (target) => {
     if (target.isSelected) {
+      if (score >= highScore) {
+        setHighScore(score);
+      }
+
       setIsGameOver(true);
       setOverMessage("Game Over");
       return;
+    }
+
+    if (score + 1 >= highScore) {
+      setHighScore(score + 1);
     }
 
     if (score + 1 >= cardsCount) {

@@ -5,7 +5,7 @@ export default function ScoreTracker({ score, highScore, limit }) {
     <>
       <div id="score-tracker">
         <p>Score: {score}</p>
-        <p>Record: {highScore}</p>
+        <p>Level Record: {highScore}</p>
       </div>
       <div id="hit-tracker">
         <p>{score} / {limit}</p>
