@@ -12,7 +12,7 @@
 
   flex-shrink: 0;
 
-  animation: fold 0.5s;
+  animation: fold 0.7s;
 
   & > div {
     background-size: 100px 100px;
