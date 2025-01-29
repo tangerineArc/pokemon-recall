@@ -14,3 +14,26 @@
   background-repeat: no-repeat;
   background-position: 50% 0;
 }
+
+#status-display {
+  display: flex;
+  justify-content: center;
+
+  & > p {
+    font-size: 3rem;
+    font-family: "Honk", serif;
+    text-align: center;
+    
+    animation: load 0.5s infinite alternate;
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}

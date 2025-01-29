@@ -8,9 +8,9 @@ export default function App() {
   const [cardsCount, setCardsCount] = useState(5);
 
   const handlePlay = (count) => {
-    setIsPlaying(prevState => !prevState);
+    setIsPlaying((prevState) => !prevState);
     if (count) setCardsCount(count);
-  }
+  };
 
   return isPlaying ? (
     <GameArena playEventHandler={handlePlay} cardsCount={cardsCount} />

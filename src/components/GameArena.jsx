@@ -8,6 +8,7 @@ import randomShuffler from "../utils/shuffle-array.js";
 import GameHeader from "./GameHeader.jsx";
 import GameOverModal from "./GameOverModal.jsx";
 import ScoreTracker from "./ScoreTracker.jsx";
+import StatusDisplay from "./StatusDisplay.jsx";
 import TilesContainer from "./TilesContainer.jsx";
 
 export default function GameArena({ playEventHandler, cardsCount }) {
@@ -17,18 +18,32 @@ export default function GameArena({ playEventHandler, cardsCount }) {
   const [isGameOver, setIsGameOver] = useState(false);
   const [overMessage, setOverMessage] = useState("");
 
+  const [isFetching, setIsFetching] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     let ignore = false;
     if (!isGameOver) {
-      getSpritesData(cardsCount).then((data) => {
-        if (!ignore) {
-          setSprites(randomShuffler(data));
-        }
-      });
+      setIsFetching(true);
+      getSpritesData(cardsCount)
+        .then((data) => {
+          if (!ignore) {
+            setSprites(randomShuffler(data));
+          }
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+          setIsError(true);
+        })
+        .finally(() => {
+          setIsFetching(false);
+        });
     }
 
     return () => {
       setSprites([]);
+      setIsError(false);
       ignore = true;
     };
   }, [isGameOver, cardsCount]);
@@ -39,7 +54,6 @@ export default function GameArena({ playEventHandler, cardsCount }) {
       setOverMessage("Game Over");
       return;
     }
-
 
     if (score + 1 >= cardsCount) {
       setIsGameOver(true);
@@ -74,7 +88,19 @@ export default function GameArena({ playEventHandler, cardsCount }) {
     <div id="game-arena">
       <GameHeader />
       <ScoreTracker score={score} highScore={highScore} limit={cardsCount} />
-      <TilesContainer sprites={sprites} selectEventHandler={handleSelection} />
+
+      {isError ? (
+        <StatusDisplay
+          status={`${errorMessage} ... Reload or try again later`}
+        />
+      ) : !isFetching ? (
+        <TilesContainer
+          sprites={sprites}
+          selectEventHandler={handleSelection}
+        />
+      ) : (
+        <StatusDisplay status={"Loading ..."} />
+      )}
 
       {isGameOver && (
         <GameOverModal
