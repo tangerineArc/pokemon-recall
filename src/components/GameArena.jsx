@@ -86,7 +86,7 @@ export default function GameArena({ playEventHandler, cardsCount }) {
 
   return (
     <div id="game-arena">
-      <GameHeader />
+      <GameHeader quitEventHandler={handleQuit} />
       <ScoreTracker score={score} highScore={highScore} limit={cardsCount} />
 
       {isError ? (
