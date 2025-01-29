@@ -10,23 +10,37 @@ import GameOverModal from "./GameOverModal.jsx";
 import ScoreTracker from "./ScoreTracker.jsx";
 import TilesContainer from "./TilesContainer.jsx";
 
-export default function GameArena() {
+export default function GameArena({ playEventHandler, cardsCount }) {
   const [sprites, setSprites] = useState([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [overMessage, setOverMessage] = useState("");
 
   useEffect(() => {
     if (!isGameOver) {
-      getSpritesData().then((data) => {
+      getSpritesData(cardsCount).then((data) => {
         setSprites(randomShuffler(data));
       });
     }
-  }, [isGameOver]);
 
-  function handleSelection(target) {
+    return () => {
+      setSprites([]);
+    };
+  }, [isGameOver, cardsCount]);
+
+  const handleSelection = (target) => {
     if (target.isSelected) {
       setIsGameOver(true);
+      setOverMessage("Game Over");
+      return;
+    }
+
+
+    if (score + 1 >= cardsCount) {
+      setIsGameOver(true);
+      setScore((prevScore) => ++prevScore);
+      setOverMessage("You Win!");
       return;
     }
 
@@ -39,21 +53,32 @@ export default function GameArena() {
       });
       return randomShuffler(newSprites);
     });
-  }
+  };
 
-  function handlePlayAgain() {
+  const handlePlayAgain = () => {
     setIsGameOver(false);
     setScore(0);
-  }
+  };
+
+  const handleQuit = () => {
+    setIsGameOver(true);
+    setScore(0);
+    playEventHandler();
+  };
 
   return (
     <div id="game-arena">
       <GameHeader />
-      <ScoreTracker score={score} highScore={highScore} />
+      <ScoreTracker score={score} highScore={highScore} limit={cardsCount} />
       <TilesContainer sprites={sprites} selectEventHandler={handleSelection} />
 
       {isGameOver && (
-        <GameOverModal score={score} playAgainEventHandler={handlePlayAgain} />
+        <GameOverModal
+          score={score}
+          playAgainEventHandler={handlePlayAgain}
+          quitEventHandler={handleQuit}
+          message={overMessage}
+        />
       )}
     </div>
   );

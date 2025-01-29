@@ -1,6 +1,6 @@
 import "../styles/score-tracker.css";
 
-export default function ScoreTracker({ score, highScore }) {
+export default function ScoreTracker({ score, highScore, limit }) {
   return (
     <>
       <div id="score-tracker">
@@ -8,7 +8,7 @@ export default function ScoreTracker({ score, highScore }) {
         <p>Record: {highScore}</p>
       </div>
       <div id="hit-tracker">
-        <p>{score} / 20</p>
+        <p>{score} / {limit}</p>
       </div>
     </>
   );
