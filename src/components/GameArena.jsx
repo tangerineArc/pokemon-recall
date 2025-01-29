@@ -10,12 +10,25 @@ import randomShuffler from "../utils/shuffle-array.js";
 
 export default function GameArena() {
   const [sprites, setSprites] = useState([]);
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  useEffect(() => {
+    if (!isGameOver) {
+      getSpritesData().then((data) => {
+        setSprites(randomShuffler(data));
+      });
+    }
+  }, [isGameOver]);
 
   function handleSelection(target) {
     if (target.isSelected) {
-      console.log("out!");
+      setIsGameOver(true);
       return;
     }
+
+    setScore((prevScore) => ++prevScore);
 
     setSprites((prevSprites) => {
       const newSprites = structuredClone(prevSprites).map((sprite) => {
@@ -26,11 +39,10 @@ export default function GameArena() {
     });
   }
 
-  useEffect(() => {
-    getSpritesData().then((data) => {
-      setSprites(randomShuffler(data));
-    });
-  }, []);
+  function handlePlayAgain() {
+    setIsGameOver(false);
+    setScore(0);
+  }
 
   return (
     <div id="game-arena">
@@ -38,16 +50,13 @@ export default function GameArena() {
         <img src={pokeballImage} alt="pokeball" width={80} height={80} />
         <p>Recall</p>
       </div>
-
       <div>
-        <p>Score: 0</p>
-        <p>Record: 29</p>
+        <p>Score: {score}</p>
+        <p>Record: {highScore}</p>
       </div>
-
       <div>
-        <p>3 / 20</p>
+        <p>{score} / 20</p>
       </div>
-
       <div>
         {sprites.map((sprite) => {
           return (
@@ -77,6 +86,20 @@ export default function GameArena() {
           );
         })}
       </div>
+
+      {isGameOver && (
+        <div id="game-over-modal">
+          <div>
+            <img src={pokeballImage} alt="" width={60} height={60} />
+            <p>Game Over</p>
+            <p>Your final score is {score}</p>
+            <div>
+              <button onClick={handlePlayAgain}>Play Again</button>
+              <button>Quit</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@
   scrollbar-color: #370617 #eae2b7;
 
   padding: 1rem;
+  position: relative;
 
   background-image: url("../assets/game-arena-wallpaper.png");
   background-size: cover;
@@ -75,6 +76,7 @@
       width: 180px;
       height: 180px;
       background-color: #00000011;
+      border: 2px solid #fdf0d522;
       border-radius: 5px;
 
       display: flex;
@@ -100,6 +102,61 @@
         font-weight: bold;
 
         border-radius: 5px;
+      }
+    }
+  }
+
+  & > #game-over-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    
+    width: 100%;
+    height: 100%;
+    background-color: #00000099;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    & > div {
+      flex-shrink: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      border-radius: 10px;
+      padding: 1rem;
+      background: #95b2ff;
+      width: 320px;
+      height: 310px;
+
+      & > p:first-of-type {
+        font-family: "Honk", serif;
+        font-size: 3rem;
+      }
+  
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+  
+        margin-top: 1rem;
+  
+        & > button {
+          border: none;
+          border-radius: 5px;
+          padding: 0.5rem 1rem;
+          background-color: #bbd0ff;
+  
+          font-size: inherit;
+          font-family: inherit;
+          color: #2f3e46;
+          font-weight: bold;
+        }
       }
     }
   }
