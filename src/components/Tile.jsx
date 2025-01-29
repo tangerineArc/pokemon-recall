@@ -10,6 +10,7 @@ export default function Tile({ sprite, selectEventHandler }) {
       glareMaxOpacity={0.7}
       glareBorderRadius="5px"
       scale={1.05}
+      key={Math.random()}
     >
       <div
         tabIndex={0}
