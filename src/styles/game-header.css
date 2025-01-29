@@ -1,0 +1,17 @@
+#game-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  & > img {
+    width: 4rem;
+    height: auto;
+  }
+
+  & > p {
+    font-family: "Honk", serif;
+    font-size: 4rem;
+    margin-bottom: 0.6rem;
+  }
+}

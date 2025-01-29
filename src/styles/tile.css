@@ -1,0 +1,32 @@
+.tile {
+  width: 180px;
+  height: 180px;
+  background-color: #00000066;
+  border: 2px solid #fdf0d577;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  flex-shrink: 0;
+
+  & > div {
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    width: 100px;
+    height: 100px;
+
+    transform: translateY(0.5rem) scale(1.5);
+  }
+
+  & > p {
+    color: #fff;
+    font-weight: bold;
+
+    border-radius: 5px;
+  }
+}
