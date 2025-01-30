@@ -2,6 +2,11 @@ import "../styles/game-arena.css";
 
 import { useEffect, useState } from "react";
 
+import cardFlipSound from "../assets/flip-card.mp3";
+import clickSound from "../assets/click.mp3";
+import lossSound from "../assets/loss.mp3";
+import winSound from "../assets/win.mp3";
+
 import getSpritesData from "../utils/fetch-data.js";
 import isStorageAvailable from "../utils/storage.js";
 import randomShuffler from "../utils/shuffle-array.js";
@@ -11,6 +16,11 @@ import GameOverModal from "./GameOverModal.jsx";
 import ScoreTracker from "./ScoreTracker.jsx";
 import StatusDisplay from "./StatusDisplay.jsx";
 import TilesContainer from "./TilesContainer.jsx";
+
+const cardFlipAudio = new Audio(cardFlipSound);
+const clickAudio = new Audio(clickSound);
+const winAudio = new Audio(winSound);
+const lossAudio = new Audio(lossSound);
 
 export default function GameArena({ playEventHandler, cardsCount }) {
   const [sprites, setSprites] = useState([]);
@@ -74,8 +84,11 @@ export default function GameArena({ playEventHandler, cardsCount }) {
 
       setIsGameOver(true);
       setOverMessage("Game Over");
+      lossAudio.play();
       return;
     }
+
+    cardFlipAudio.play();
 
     if (score + 1 >= highScore) {
       setHighScore(score + 1);
@@ -85,6 +98,7 @@ export default function GameArena({ playEventHandler, cardsCount }) {
       setIsGameOver(true);
       setScore((prevScore) => ++prevScore);
       setOverMessage("You Win!");
+      winAudio.play();
       return;
     }
 
@@ -102,6 +116,7 @@ export default function GameArena({ playEventHandler, cardsCount }) {
   const handlePlayAgain = () => {
     setIsGameOver(false);
     setScore(0);
+    clickAudio.play();
   };
 
   const handleQuit = () => {

@@ -12,7 +12,9 @@
   & > p {
     font-family: "Honk", serif;
     font-size: 4rem;
+
     margin-bottom: 0.6rem;
+    cursor: pointer;
   }
 
   & > p:hover {

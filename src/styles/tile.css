@@ -15,6 +15,7 @@
   flex-shrink: 0;
 
   animation: fold 0.7s;
+  cursor: pointer;
 
   & > div {
     background-size: 100px 100px;
