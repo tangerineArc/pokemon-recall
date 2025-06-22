@@ -40,6 +40,8 @@ A slick little memory game built with React and powered by PokéAPI. Click uniqu
 
 ## Snapshots
 
+> _I am not the artwork creator._
+
 [![recall-1.png](https://i.postimg.cc/Nfp2z82d/recall-1.png)](https://postimg.cc/CznKZqN8)
 
 [![recall-2.png](https://i.postimg.cc/WbgTDsTg/recall-2.png)](https://postimg.cc/nCF6gbsh)
